@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const patientSchema = new mongoose.Schema({
@@ -9,6 +10,7 @@ const patientSchema = new mongoose.Schema({
   bloodGroup: { type: String },
   phoneNumber: { type: String },
   address: { type: String },
+  email: { type: String, unique: true }, // Add the email field here
   role: { type: String, default: "patient" },
 });
 

@@ -45,3 +45,80 @@ exports.bookAppointment = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+
+exports.getTotalBookingsForDepartment = async (req, res) => {
+  const { departmentId } = req.params;
+
+  try {
+    // Find the department by ID
+    const department = await Department.findById(departmentId);
+    if (!department) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+
+    // Get the count of appointments for this department (use department ID)
+    const totalBookings = await Appointment.countDocuments({ department: department._id });
+
+    res.status(200).json({ totalBookings });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+// Controller to get the total number of appointments for a specific doctor
+exports.getTotalBookingsForDoctor = async (req, res) => {
+  const { doctorId } = req.params;
+
+  try {
+    // Find the doctor
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    // Get the count of appointments for this doctor
+    const totalBookings = await Appointment.countDocuments({ doctorId: doctor._id });
+
+    res.status(200).json({ totalBookings });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+
+
+
+// 
+// 
+// 
+exports.getBookingsForDepartmentAndDoctor = async (req, res) => {
+  const { doctorId, departmentId } = req.params;
+
+  try {
+    // Find the department by ID (use departmentId instead of department name)
+    const department = await Department.findById(departmentId);
+    if (!department) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+
+    // Find the doctor by ID
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    // Get the count of appointments for this department using department ID
+    const totalBookingsForDepartment = await Appointment.countDocuments({ department: department._id });
+
+    // Get the count of appointments for this doctor using doctor ID
+    const totalBookingsForDoctor = await Appointment.countDocuments({ doctorId: doctor._id });
+
+    res.status(200).json({
+      totalBookingsForDepartment,
+      totalBookingsForDoctor,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
