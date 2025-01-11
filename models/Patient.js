@@ -6,6 +6,10 @@ const patientSchema = new mongoose.Schema({
   password: { type: String, required: true },
   age: { type: Number, required: true },
   gender: { type: String, enum: ["Male", "Female", "Other"], required: true },
+  bloodGroup: { type: String },
+  phoneNumber: { type: String },
+  address: { type: String },
+  role: { type: String, default: "patient" },
 });
 
 module.exports = mongoose.model("Patient", patientSchema);
