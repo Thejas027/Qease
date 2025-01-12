@@ -1,19 +1,19 @@
-// src/App.jsx
-
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import PatientDashboard from "./components/PatientDashboard";
 import HospitalDashboard from "./components/QueueMonitoring";
-import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/authContext";
+import PatientStatus from "./components/patient/PatientStatus";
+import HomeLayout from "./pages/HomeLayout";
+import PatientForm from "./components/patient/PatientForm";
 
 const App = () => {
   return (
     <Router>
       <AuthProvider>
-        <Navbar />
         <Routes>
+          <Route path="/" element={<HomeLayout />} />
           <Route path="/login" element={<Login />} />
           <Route
             path="/patient"
@@ -30,6 +30,12 @@ const App = () => {
                 <HospitalDashboard />
               </ProtectedRoute>
             }
+          />
+          <Route path="/patient-form" element={<PatientForm />} />
+          {/* Update the route to accept a dynamic patientId */}
+          <Route
+            path="/patient-status/:patientId"
+            element={<PatientStatus />}
           />
         </Routes>
       </AuthProvider>
