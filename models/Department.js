@@ -14,6 +14,10 @@ const DepartmentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  totalAppointments: {
+    type: Number,
+    default: 0, // Start with 0
+  },
 });
 
 module.exports = mongoose.model("Department", DepartmentSchema);

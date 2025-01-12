@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 
 exports.register = async (req, res) => {
   const { name, username, password, age, gender, address, role } = req.body;
-
   try {
     const existingUser = await Patient.findOne({ username });
     if (existingUser) {

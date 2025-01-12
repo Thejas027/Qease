@@ -14,7 +14,10 @@ const DoctorSchema = new mongoose.Schema({
     type: [String], // Array of strings for time slots
     required: true,
   },
+  totalAppointments: {
+    type: Number,
+    default: 0, // Start with 0
+  },
 });
 
 module.exports = mongoose.model("Doctor", DoctorSchema);
-

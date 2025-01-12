@@ -13,7 +13,8 @@ const generateToken = (user) => {
 
 // Register User
 exports.register = async (req, res) => {
-  const { name, username, password, role, age, gender, address } = req.body;
+  const { name, username, password, role, age, gender, address, email } =
+    req.body;
 
   try {
     let User;
@@ -31,6 +32,14 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: "Username already taken" });
     }
 
+    // Check if email already exists (if provided)
+    if (email) {
+      const existingEmail = await User.findOne({ email });
+      if (existingEmail) {
+        return res.status(400).json({ message: "Email already taken" });
+      }
+    }
+
     // Hash password
     const hashedPassword = bcrypt.hashSync(password, 8);
 
@@ -42,6 +51,7 @@ exports.register = async (req, res) => {
       age,
       gender,
       address,
+      email,
       role,
     });
     await newUser.save();
@@ -49,7 +59,7 @@ exports.register = async (req, res) => {
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
