@@ -8,6 +8,8 @@ import PatientStatus from "./components/patient/PatientStatus";
 import HomeLayout from "./pages/HomeLayout";
 import PatientForm from "./components/patient/PatientForm";
 
+import QueueStatus from "./components/Hospital/QueueStatus";
+
 const App = () => {
   return (
     <Router>
@@ -32,10 +34,13 @@ const App = () => {
             }
           />
           <Route path="/patient-form" element={<PatientForm />} />
-          {/* Update the route to accept a dynamic patientId */}
           <Route
             path="/patient-status/:patientId"
             element={<PatientStatus />}
+          />
+          <Route
+            path="/hospital/queue-status/:patientId"
+            element={<QueueStatus />}
           />
         </Routes>
       </AuthProvider>
