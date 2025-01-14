@@ -1,30 +1,30 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "./SidebarHospital";
 
-function DoctorsList() {
-  const { departmentId } = useParams(); // Get department ID from the route
-  const [doctors, setDoctors] = useState([]);
+function DepartmentList() {
+  const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchDoctors = async () => {
+    const fetchDepartments = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/departments/${departmentId}`
+          "http://localhost:5000/api/departments/"
         );
-        setDoctors(response.data);
+        setDepartments(response.data);
         setLoading(false);
       } catch (err) {
-        setError("Failed to load doctors. Please try again." + err.message);
+        setError("Failed to load departments. Please try again." + err.message);
         setLoading(false);
       }
     };
 
-    fetchDoctors();
-  }, [departmentId]);
+    fetchDepartments();
+  }, []);
 
   if (loading) {
     return (
@@ -43,26 +43,26 @@ function DoctorsList() {
       </div>
       <div className="min-h-screen bg-gray-100 py-10 px-4 w-full">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
-          Doctors List
+          Departments
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {doctors.map((doctor) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+          {departments.map((department) => (
             <div
-              key={doctor._id}
+              key={department._id}
               className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300"
             >
               <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                Dr. {doctor.name}
+                Department Name: {department.name}
               </h2>
               <p className="text-gray-600 mb-4">
-                Total Appointments: {doctor.totalAppointments}
+                About: {department.description}
               </p>
-              <p className="text-gray-600">Available Slots:</p>
-              <ul className="list-disc list-inside">
-                {doctor.slots.map((slot, index) => (
-                  <li key={index}>{slot}</li>
-                ))}
-              </ul>
+              <button
+                onClick={() => navigate(`/doctors/${department._id}`)}
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+              >
+                View Doctors
+              </button>
             </div>
           ))}
         </div>
@@ -71,4 +71,4 @@ function DoctorsList() {
   );
 }
 
-export default DoctorsList;
+export default DepartmentList;

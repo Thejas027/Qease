@@ -175,10 +175,10 @@ exports.getQueueStatus = async (req, res) => {
   const { patientId } = req.params;
 
   try {
-    // Find the current patient's appointment
     const currentAppointment = await Appointment.findOne({ patientId })
-      .populate("doctorId", "name") // Populate doctor name
-      .populate("patientId", "name"); // Populate patient name
+      .populate("doctorId", "name")
+      .populate("patientId", "name")
+      .populate("department", "name");
 
     if (!currentAppointment) {
       return res
@@ -188,35 +188,153 @@ exports.getQueueStatus = async (req, res) => {
 
     const { queueNumber, doctorId, department, slot } = currentAppointment;
 
-    // Find remaining patients in the queue for the same department and doctor
+    // Fetch patients before the current one
     const remainingPatients = await Appointment.find({
       doctorId,
       department,
-      status: "Scheduled", // Only count patients with scheduled appointments
-      queueNumber: { $gt: queueNumber }, // Get patients with queueNumber greater than current
+      status: "Scheduled",
+      queueNumber: { $lt: queueNumber },
     })
-      .sort({ queueNumber: 1 }) // Sort by queueNumber
-      .populate("patientId", "name") // Include patient name in remaining patients
-      .select("queueNumber slot patientId"); // Select fields to include in response
+      .sort({ queueNumber: -1 })
+      .populate("patientId", "name")
+      .select("queueNumber slot patientId");
 
-    const remainingCount = remainingPatients.length; // Count remaining patients
+    const remainingCount = remainingPatients.length;
 
     res.status(200).json({
       currentPatient: {
         queueNumber,
-        patientName: currentAppointment.patientId.name, // Patient name
-        doctorName: currentAppointment.doctorId.name, // Doctor name
-        departmentName: department, // Department name
+        patientName: currentAppointment.patientId.name,
+        doctorName: currentAppointment.doctorId.name,
+        departmentName: currentAppointment.department?.name || "Unknown",
         appointmentTime: slot,
       },
       remainingPatients: remainingPatients.map((patient) => ({
         queueNumber: patient.queueNumber,
         appointmentTime: patient.slot,
-        patientName: patient.patientId?.name || "Unknown", // Handle cases where patientId might not exist
+        patientName: patient.patientId?.name || "Unknown",
       })),
-      remainingCount, // Dynamic count of remaining patients
+      remainingCount,
     });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+// to cancel the appointment
+exports.cancelAppointment = async (req, res) => {
+  const { appointmentId } = req.body;
+
+  try {
+    // Find the appointment
+    const appointment = await Appointment.findById(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+
+    // Check if the appointment is already cancelled or completed
+    if (appointment.status === "Cancelled") {
+      return res
+        .status(400)
+        .json({ message: "Appointment is already cancelled" });
+    }
+    if (appointment.status === "Completed") {
+      return res
+        .status(400)
+        .json({ message: "Completed appointments cannot be cancelled" });
+    }
+
+    // Delete the appointment from the database
+    await Appointment.deleteOne({ _id: appointmentId });
+
+    // Update the doctor's details
+    const doctor = await Doctor.findById(appointment.doctorId);
+    if (doctor) {
+      doctor.totalAppointments -= 1;
+
+      // Ensure the slot is added back to the doctor's available slots
+      if (!doctor.slots.includes(appointment.slot)) {
+        doctor.slots.push(appointment.slot);
+        doctor.slots.sort(); // Optional: Sort slots if necessary for ordering
+      }
+      await doctor.save();
+    }
+
+    // Update the department's totalAppointments
+    const department = await Department.findById(appointment.department);
+    if (department) {
+      department.totalAppointments -= 1;
+      await department.save();
+    }
+
+    // Update the patient's details and appointment status
+    const patient = await Patient.findById(appointment.patientId);
+    if (patient) {
+      patient.totalAppointments -= 1;
+
+      // Find the status entry for this appointment and update its status to "Cancelled"
+      const appointmentStatus = patient.appointmentStatuses.find(
+        (status) => status.appointmentId.toString() === appointmentId
+      );
+      if (appointmentStatus) {
+        appointmentStatus.status = "Cancelled";
+      }
+
+      await patient.save();
+    }
+
+    res
+      .status(200)
+      .json({ message: "Appointment cancelled and deleted successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+// get all the patients booking
+exports.getAllAppointments = async (req, res) => {
+  try {
+    const appointments = await Appointment.find()
+      .populate("patientId", "username")
+      .populate("patientId", "status")
+      .populate("patientId", "age")
+      .populate("doctorId", "name")
+      .populate("department", "name");
+
+    res.status(200).json({
+      success: true,
+      data: appointments,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch appointments",
+      error: error.message,
+    });
+  }
+};
+
+//
+//
+exports.getTotalBookingsForAllDepartments = async (req, res) => {
+  try {
+    const departments = await Department.find(); // Fetch all departments
+    const bookings = await Promise.all(
+      departments.map(async (department) => {
+        const totalBookings = await Appointment.countDocuments({
+          department: department._id,
+        });
+        return {
+          departmentId: department._id,
+          departmentName: department.name,
+          totalBookings,
+        };
+      })
+    );
+
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };

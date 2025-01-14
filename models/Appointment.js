@@ -1,15 +1,29 @@
 const mongoose = require("mongoose");
 
 const appointmentSchema = new mongoose.Schema({
-  patientId: { type: mongoose.Schema.Types.ObjectId, ref: "Patient" },
-  doctorId: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor" },
-  department: String,
-  slot: String,
+  patientId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Patient",
+    required: true,
+  },
+  doctorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Doctor",
+    required: true,
+  },
+  department: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Department",
+  },
+  slot: {
+    type: String,
+    required: true,
+  },
   queueNumber: Number,
   createdAt: { type: Date, default: Date.now },
   status: {
     type: String,
-    enum: ["Scheduled", "Completed", "Delayed"],
+    enum: ["Scheduled", "Completed", "Delayed", "Cancelled"],
     default: "Scheduled",
   },
   estimatedDelay: { type: Number, default: 0 }, // in minutes

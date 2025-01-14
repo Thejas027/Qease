@@ -5,6 +5,9 @@ const {
   getTotalBookingsForDoctor,
   getBookingsForDepartmentAndDoctor,
   getQueueStatus,
+  cancelAppointment,
+  getAllAppointments,
+  getTotalBookingsForAllDepartments,
 } = require("../controllers/appointmentController");
 
 const router = express.Router();
@@ -26,4 +29,14 @@ router.get(
 
 // to get the queue status
 router.get("/queue-status/:patientId", getQueueStatus);
+
+// to cancel the appointment
+router.post("/cancel", cancelAppointment);
+
+// to get all the  booking
+router.get("/get-all-appointments", getAllAppointments);
+
+// Route to get total bookings for all departments
+router.get("/bookings/all-departments", getTotalBookingsForAllDepartments);
+
 module.exports = router;
