@@ -1,14 +1,14 @@
 import SidebarPatient from "./SidebarPatient";
 
-function PatientDashboard() {
+function BookAppointment() {
   return (
     <div className="flex">
       <div>
         <SidebarPatient />
       </div>
-      <div className="w-full">Dashboard content</div>
+      <div className="w-full">BookAppointment</div>
     </div>
   );
 }
 
-export default PatientDashboard;
+export default BookAppointment;
