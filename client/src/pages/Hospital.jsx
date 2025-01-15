@@ -1,4 +1,4 @@
-import QueueMonitoring from "../components/QueueMonitoring";
+import QueueMonitoring from "../components/Hospital/QueueMonitoring";
 
 function Hospital() {
   return (

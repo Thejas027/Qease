@@ -1,20 +1,20 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
-import PatientDashboard from "./components/PatientDashboard";
-import HospitalDashboard from "./components/QueueMonitoring";
+import PatientDashboard from "./components/Patient/PatientDashboard";
+import HospitalDashboard from "./components/Hospital/QueueMonitoring";
 // import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/authContext";
-import PatientStatus from "./components/PatientStatus";
+import PatientStatus from "./components/Patient/PatientStatus";
 import HomeLayout from "./pages/HomeLayout";
-import PatientForm from "./components/PatientForm";
+import PatientForm from "./components/Patient/PatientForm";
 
-import QueueStatus from "./components/QueueStatus";
-import DepartmentList from "./components/DepartmentList";
-import DoctorsList from "./components/DoctorsList";
+import QueueStatus from "./components/Hospital/QueueStatus";
+import DepartmentList from "./components/Hospital/DepartmentList";
+import DoctorsList from "./components/Hospital/DoctorsList";
 
 import SignUp from "./pages/SignUp";
-import PatientProfile from "./components/PatientProfile";
-import BookAppointment from "./components/BookAppointment";
+import PatientProfile from "./components/Patient/PatientProfile";
+import BookAppointment from "./components/Patient/BookAppointment";
 const App = () => {
   return (
     <Router>
