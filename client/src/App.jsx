@@ -12,6 +12,8 @@ import QueueStatus from "./components/QueueStatus";
 import DepartmentList from "./components/DepartmentList";
 import DoctorsList from "./components/DoctorsList";
 
+import SignUp from "./pages/SignUp";
+
 const App = () => {
   return (
     <Router>
@@ -29,6 +31,7 @@ const App = () => {
           <Route path="/hospital/queue-status" element={<QueueStatus />} />
           <Route path="/department-list" element={<DepartmentList />} />
           <Route path="/doctors/:departmentId" element={<DoctorsList />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </AuthProvider>
     </Router>
