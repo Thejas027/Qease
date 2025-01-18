@@ -1,25 +1,28 @@
-import { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-
+import { AuthContext } from "../../context/authContext"; // Import AuthContext
 import Sidebar from "./SidebarPatient";
 
 function PatientStatus() {
-  const { patientId } = useParams(); // Get patientId from the URL
+  const { patientId } = useParams();
+  const { user } = useContext(AuthContext); // Get user data from context
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchQueueStatus = async () => {
-      if (!patientId) {
-        setError("Invalid patient ID");
-        setLoading(false);
-        return;
-      }
+    if (!user) {
+      setError("No user found, please log in.");
+      setLoading(false);
+      return;
+    }
 
+    const fetchQueueStatus = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/appointments/queue-status/${patientId}`
+          `http://localhost:5000/api/patients/queue-status/${user._id}`, // Using user._id to fetch patient data
+          { credentials: "include" }
         );
 
         if (!response.ok) {
@@ -36,7 +39,7 @@ function PatientStatus() {
     };
 
     fetchQueueStatus();
-  }, [patientId]);
+  }, [user]);
 
   if (loading) {
     return <div className="text-center py-8">Loading...</div>;

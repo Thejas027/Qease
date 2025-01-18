@@ -14,6 +14,7 @@ import DoctorsList from "./components/Hospital/DoctorsList";
 
 import SignUp from "./pages/SignUp";
 import PatientProfile from "./components/Patient/PatientProfile";
+import Appointment from "./components/Patient/Appointment";
 import BookAppointment from "./components/Patient/BookAppointment";
 const App = () => {
   return (
@@ -36,8 +37,9 @@ const App = () => {
           <Route path="/patient-profile" element={<PatientProfile />} />
           <Route
             path="/patient-appointment-booking"
-            element={<BookAppointment />}
+            element={<Appointment />}
           />
+          <Route path="/appointment-book-form" element={<BookAppointment />} />
         </Routes>
       </AuthProvider>
     </Router>
