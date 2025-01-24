@@ -1,52 +1,22 @@
-
 const Booking = () => {
   return (
-    <section id="booking" className="py-24 bg-blue-50">
+    <section id="booking" className="py-24 bg-white">
       <div className="container mx-auto text-center">
-        <h2 className="text-3xl font-bold text-blue-600 mb-6">Book Your Queue</h2>
-        <p className="text-gray-700 mb-8">
-          Effortlessly book a queue and enjoy a smooth and hassle-free experience.
+        <h2 className="text-3xl font-bold text-black mb-4">Book a Queue</h2>
+        <p className="text-gray-600 mb-8">
+          Save time and ensure your spot by booking your queue online.
         </p>
-        <form className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-left text-gray-700 font-bold mb-2">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter your name"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-left text-gray-700 font-bold mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter your email"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="date" className="block text-left text-gray-700 font-bold mb-2">
-              Booking Date
-            </label>
-            <input
-              type="date"
-              id="date"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-600 text-white w-full py-2 rounded-lg hover:bg-blue-700"
-          >
-            Book Now
+        <div className="flex justify-center gap-4">
+          <button className="bg-purple-600 text-white py-2 px-6 rounded-full text-lg shadow-md hover:bg-purple-700 transition">
+            Book for a Hospital
           </button>
-        </form>
+          <button className="bg-purple-600 text-white py-2 px-6 rounded-full text-lg shadow-md hover:bg-purple-700 transition">
+            Book for a Bank
+          </button>
+          <button className="bg-purple-600 text-white py-2 px-6 rounded-full text-lg shadow-md hover:bg-purple-700 transition">
+            Book for Retail
+          </button>
+        </div>
       </div>
     </section>
   );
