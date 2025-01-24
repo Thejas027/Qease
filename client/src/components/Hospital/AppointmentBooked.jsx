@@ -77,7 +77,7 @@ function AppointmentBooked() {
                 </td>
                 <td className="py-2 px-4">{appointment.slot}</td>
                 <td className="py-2 px-4 text-center">
-                  {appointment.queueNumber}
+                  {appointment.queueNumber }
                 </td>
                 <td className="py-2 px-4">
                   <span

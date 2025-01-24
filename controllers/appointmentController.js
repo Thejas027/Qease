@@ -297,7 +297,7 @@ exports.cancelAppointment = async (req, res) => {
 exports.getAllAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.find()
-      .select("patientId doctorId department slot reason")
+      .select("patientId doctorId department slot reason queueNumber status ")
       .populate("patientId", "gender username name status age ")
       .populate("doctorId", "name")
       .populate("department", "name");
