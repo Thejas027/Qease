@@ -13,7 +13,6 @@ import DepartmentList from "./components/Hospital/DepartmentList";
 import DoctorsList from "./components/Hospital/DoctorsList";
 
 import SignUp from "./pages/SignUp";
-import PatientProfile from "./components/Patient/PatientProfile";
 import Appointment from "./components/Patient/Appointment";
 import BookAppointment from "./components/Patient/BookAppointment";
 const App = () => {
@@ -34,7 +33,6 @@ const App = () => {
           <Route path="/department-list" element={<DepartmentList />} />
           <Route path="/doctors/:departmentId" element={<DoctorsList />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/patient-profile" element={<PatientProfile />} />
           <Route
             path="/patient-appointment-booking"
             element={<Appointment />}

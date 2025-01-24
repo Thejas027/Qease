@@ -1,4 +1,4 @@
-import { FaHome, FaClipboardList, FaUser, FaCalendarAlt } from "react-icons/fa";
+import { FaHome, FaClipboardList, FaCalendarAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 function SidebarPatient() {
@@ -29,13 +29,7 @@ function SidebarPatient() {
           <FaClipboardList className="text-lg" />
           <span className="text-lg">Dashboard</span>
         </Link>
-        <Link
-          to="/patient-profile"
-          className="flex items-center space-x-4 hover:bg-indigo-400 py-2 px-3 rounded-lg cursor-pointer transition-all"
-        >
-          <FaUser className="text-lg" />
-          <span className="text-lg">Profile</span>
-        </Link>
+
         <Link
           to="/patient-appointment-booking"
           className="flex items-center space-x-4 hover:bg-indigo-400 py-2 px-3 rounded-lg cursor-pointer transition-all"
