@@ -5,7 +5,6 @@ import {
   FaTachometerAlt,
   FaUsers,
   FaBars,
-  FaSignOutAlt,
 } from "react-icons/fa"; // Import icons
 import { IoMdArrowDropright } from "react-icons/io"; // For dropdown
 
@@ -91,12 +90,6 @@ function Sidebar() {
             <IoMdArrowDropright size={20} />
             <span>Status</span>
           </Link>
-
-          {/* Logout */}
-          <div className="flex items-center space-x-4 p-3 hover:bg-indigo-400 rounded-lg cursor-pointer">
-            <FaSignOutAlt size={20} />
-            <span>Logout</span>
-          </div>
         </div>
       </div>
 
