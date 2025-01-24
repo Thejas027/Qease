@@ -4,7 +4,7 @@ const Department = require("../models/Department"); // Assuming you have a Depar
 const Patient = require("../models/Patient");
 
 exports.bookAppointment = async (req, res) => {
-  const { patientId, doctorId, department, slot } = req.body;
+  const { patientId, doctorId, department, slot, reason } = req.body;
 
   try {
     // Check if the doctor exists
@@ -48,12 +48,13 @@ exports.bookAppointment = async (req, res) => {
     // Generate queue number for the department
     const queueNumber = (await Appointment.countDocuments({ department })) + 1;
 
-    // Create a new appointment
+    // Create a new appointment with the reason field
     const newAppointment = new Appointment({
       patientId,
       doctorId,
       department,
       slot,
+      reason,
       queueNumber,
       status: "Scheduled",
     });
@@ -296,7 +297,8 @@ exports.cancelAppointment = async (req, res) => {
 exports.getAllAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.find()
-      .populate("patientId", "gender username name status age")
+      .select("patientId doctorId department slot reason")
+      .populate("patientId", "gender username name status age ")
       .populate("doctorId", "name")
       .populate("department", "name");
 

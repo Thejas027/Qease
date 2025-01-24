@@ -19,6 +19,10 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  reason: {
+    type: String,
+    required: true, // Making it required for the booking
+  },
   queueNumber: Number,
   createdAt: { type: Date, default: Date.now },
   status: {

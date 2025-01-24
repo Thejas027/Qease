@@ -1,28 +1,44 @@
-function Features() {
-  const features = [
-    { title: "Feature 1", description: "Amazing feature description here." },
-    { title: "Feature 2", description: "Another great feature description." },
-    { title: "Feature 3", description: "The best feature you’ll love." },
-  ];
 
+const features = [
+  {
+    icon: "fas fa-users",
+    title: "Real-time Queue Management",
+    description:
+      "Track and manage queues in real-time for better service efficiency.",
+  },
+  {
+    icon: "fas fa-chart-line",
+    title: "Data Analytics",
+    description:
+      "Get insightful data to optimize queue management and customer experience.",
+  },
+  {
+    icon: "fas fa-mobile-alt",
+    title: "Mobile Accessibility",
+    description: "Manage queues on the go with our easy-to-use mobile app.",
+  },
+];
+
+const Features = () => {
   return (
-    <section id="features" className="py-20 bg-white">
+    <section id="features" className="py-24 bg-gray-100">
       <div className="container mx-auto text-center">
-        <h3 className="text-3xl font-bold mb-8">Features</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <h2 className="text-3xl font-bold text-blue-600 mb-8">Features</h2>
+        <div className="grid md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="p-6 border rounded-lg shadow hover:shadow-lg transition-shadow"
+              className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300"
             >
-              <h4 className="text-xl font-bold mb-4">{feature.title}</h4>
-              <p>{feature.description}</p>
+              <i className={`${feature.icon} text-4xl text-blue-600 mb-4`}></i>
+              <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+              <p className="text-gray-600">{feature.description}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
   );
-}
+};
 
 export default Features;

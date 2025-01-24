@@ -54,6 +54,7 @@ function AppointmentBooked() {
               <th className="py-2 px-4 text-center">Queue Number</th>
               <th className="py-2 px-4 text-center">Status</th>
               <th className="py-2 px-4 text-left">Reason</th>
+              <th className="py-2 px-4 text-left">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -90,7 +91,8 @@ function AppointmentBooked() {
                     {appointment.status}
                   </span>
                 </td>
-                <td className="py-2 px-4">{appointment.patientId.name}</td>
+                <td className="py-2 px-4">{appointment.reason}</td>
+                <td className="py-2 px-4">{appointment.status}</td>
               </tr>
             ))}
           </tbody>
